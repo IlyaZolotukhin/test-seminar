@@ -12,10 +12,13 @@ interface Seminar {
 }
 
 const SeminarList: React.FC = () => {
+   // хранение загруженных семинаров
     const [seminars, setSeminars] = useState<Seminar[]>([]);
+    //состояние лоадинга
     const [loading, setLoading] = useState<boolean>(true);
+    //состояния редактирования семинара
     const [editingSeminar, setEditingSeminar] = useState<Seminar | null>(null);
-
+//обновление карточек
     const handleSave = async (updatedSeminar: Seminar) => {
         try {
             await axios.put(`http://localhost:3001/seminars/${updatedSeminar.id}`, updatedSeminar);
@@ -25,7 +28,7 @@ const SeminarList: React.FC = () => {
             console.error("Ошибка при обновлении семинара:", error);
         }
     };
-
+//загрузка данных
     useEffect(() => {
         const fetchSeminars = async () => {
             try {
@@ -43,7 +46,9 @@ const SeminarList: React.FC = () => {
 
     // Удаление семинара
     const handleDelete = async (id: number) => {
+        //откроем окно подтверждения
         if (window.confirm("Вы уверены, что хотите удалить этот семинар?")) {
+            //если "ok" то delete
             try {
                 await axios.delete(`http://localhost:3001/seminars/${id}`);
                 setSeminars(seminars.filter(seminar => seminar.id !== id));
@@ -54,10 +59,11 @@ const SeminarList: React.FC = () => {
     };
 
     const handleEdit = (seminar: Seminar) => {
+        //а здесь откроем модалку
         setEditingSeminar(seminar)
         console.log("Редактирование семинара:", seminar);
     };
-
+//наш отрисованный лоадинг
     if (loading) {
         return <div>Загрузка...</div>;
     }

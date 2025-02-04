@@ -17,13 +17,16 @@ interface EditModalProps {
 }
 
 const EditModal: React.FC<EditModalProps> = ({ seminar, onSave, onClose }) => {
+    //храним засетанную формдату из полей
     const [formData, setFormData] = useState<Seminar>(seminar);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        //принимаем и сетаем
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        //отправляем наверх
         e.preventDefault();
         onSave(formData);
     };
